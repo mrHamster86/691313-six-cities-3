@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Main extends PureComponent {
   render() {
-    const {placesCount, places} = this.props;
+    const {placesCount, places, titleClickHandler} = this.props;
     return (
       <div className="page page--gray page--main">
         <header className="header">
@@ -102,6 +102,7 @@ class Main extends PureComponent {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
+
                   {places.map((place, index) => (
                     <article
                       key={index}
@@ -143,7 +144,7 @@ class Main extends PureComponent {
                           </div>
                         </div>
                         <h2 className="place-card__name">
-                          <a href="#">{place}</a>
+                          <a href="#" onClick={titleClickHandler}>{place}</a>
                         </h2>
                         <p className="place-card__type">Apartment</p>
                       </div>
@@ -166,6 +167,7 @@ class Main extends PureComponent {
 Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   places: PropTypes.arrayOf(PropTypes.string).isRequired,
+  titleClickHandler: PropTypes.func.isRequired,
 };
 
 export default Main;
