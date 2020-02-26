@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Main from './main';
+import PlacesList from './places-list.jsx';
 
 const offers = [
   {
@@ -25,9 +25,9 @@ const offers = [
   },
 ];
 
-it(`Main components renders correctly`, () => {
+it(`PlacesList components renders correctly`, () => {
   const tree = renderer.
-    create(<Main
+    create(<PlacesList
       offers={offers}
     />).
     toJSON();

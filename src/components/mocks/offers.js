@@ -1,8 +1,4 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import Main from './main';
-
-const offers = [
+export default [
   {
     id: `1`,
     picture: `img/apartment-01.jpg`,
@@ -24,12 +20,3 @@ const offers = [
     isBookmark: true,
   },
 ];
-
-it(`Main components renders correctly`, () => {
-  const tree = renderer.
-    create(<Main
-      offers={offers}
-    />).
-    toJSON();
-  expect(tree).toMatchSnapshot();
-});
