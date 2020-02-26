@@ -164,7 +164,7 @@ exports[`Main components renders correctly 1`] = `
           <b
             className="places__found"
           >
-            10
+            2
              places to stay in Amsterdam
           </b>
           <form
@@ -226,14 +226,8 @@ exports[`Main components renders correctly 1`] = `
           >
             <article
               className="cities__place-card place-card"
+              onMouseEnter={[Function]}
             >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -241,7 +235,7 @@ exports[`Main components renders correctly 1`] = `
                   href="#"
                 >
                   <img
-                    alt="Place image"
+                    alt="Beautiful & luxurious apartment at great location"
                     className="place-card__image"
                     height="200"
                     src="img/apartment-01.jpg"
@@ -261,7 +255,8 @@ exports[`Main components renders correctly 1`] = `
                     <b
                       className="place-card__price-value"
                     >
-                      €120
+                      €
+                      120
                     </b>
                     <span
                       className="place-card__price-text"
@@ -270,7 +265,12 @@ exports[`Main components renders correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button button"
+                    className={
+                      Array [
+                        "place-card__bookmark-button",
+                        "button",
+                      ]
+                    }
                     type="button"
                   >
                     <svg
@@ -314,20 +314,20 @@ exports[`Main components renders correctly 1`] = `
                 >
                   <a
                     href="#"
-                    onClick={[Function]}
                   >
-                    Beautiful & luxurious
+                    Beautiful & luxurious apartment at great location
                   </a>
                 </h2>
                 <p
                   className="place-card__type"
                 >
-                  Apartment
+                  apartment
                 </p>
               </div>
             </article>
             <article
               className="cities__place-card place-card"
+              onMouseEnter={[Function]}
             >
               <div
                 className="place-card__mark"
@@ -343,10 +343,10 @@ exports[`Main components renders correctly 1`] = `
                   href="#"
                 >
                   <img
-                    alt="Place image"
+                    alt="Wood and stone place"
                     className="place-card__image"
                     height="200"
-                    src="img/apartment-01.jpg"
+                    src="img/apartment-02.jpg"
                     width="260"
                   />
                 </a>
@@ -363,7 +363,8 @@ exports[`Main components renders correctly 1`] = `
                     <b
                       className="place-card__price-value"
                     >
-                      €120
+                      €
+                      100
                     </b>
                     <span
                       className="place-card__price-text"
@@ -372,7 +373,13 @@ exports[`Main components renders correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button button"
+                    className={
+                      Array [
+                        "place-card__bookmark-button",
+                        "button",
+                        "place-card__bookmark-button--active",
+                      ]
+                    }
                     type="button"
                   >
                     <svg
@@ -416,7 +423,6 @@ exports[`Main components renders correctly 1`] = `
                 >
                   <a
                     href="#"
-                    onClick={[Function]}
                   >
                     Wood and stone place
                   </a>
@@ -424,7 +430,7 @@ exports[`Main components renders correctly 1`] = `
                 <p
                   className="place-card__type"
                 >
-                  Apartment
+                  room
                 </p>
               </div>
             </article>
