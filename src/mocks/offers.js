@@ -36,6 +36,7 @@ export default [
       isPro: true,
       name: `Angelina`,
     },
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+    location: [52.3909553943508, 4.85309666406198],
   },
 ];

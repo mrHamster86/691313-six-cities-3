@@ -1,46 +1,51 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card.jsx';
+import * as leaflet from 'leaflet';
 
-class PlacesList extends PureComponent {
+class Map extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      activeCard: -1,
-    };
-  }
-
-  _handelCardMouseenter(activeCard) {
-    this.setState(() => ({
-      activeCard,
-    }));
+    this._map = React.createRef();
   }
 
   render() {
+    return (
+      <section className="cities__map map" ref={this._map}/>
+    );
+  }
+
+  componentDidMount() {
+    const city = [52.38333, 4.9];
+
+    const icon = leaflet.icon({
+      iconUrl: `img/pin.svg`,
+      iconSize: [30, 30]
+    });
+
+    const zoom = 12;
+    const map = leaflet.map(this._map.current, {
+      center: city,
+      zoom,
+      zoomControl: false,
+      marker: true
+    });
+    map.setView(city, zoom);
+
+    leaflet
+    .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
+      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+    })
+    .addTo(map);
+
     const {offers} = this.props;
 
-    return (
-      <div className="cities__places-list places__list tabs__content">
-        {offers.map((place) => (
-          <PlaceCard
-            key={place.id}
-            id={place.id}
-            picture={place.picture}
-            price={place.price}
-            title={place.title}
-            type={place.type}
-            rating={place.rating}
-            isPremium={place.isPremium}
-            isBookmark={place.isBookmark}
-            onMouseenter={this._handelCardMouseenter}
-          />
-        ))}
-      </div>
-    );
+    offers.forEach((offer) => {
+      leaflet.marker(offer.location, {icon}).addTo(map);
+    });
   }
 }
 
-PlacesList.propTypes = {
+Map.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.number,
@@ -67,4 +72,4 @@ PlacesList.propTypes = {
   ).isRequired
 };
 
-export default PlacesList;
+export default Map;

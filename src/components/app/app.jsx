@@ -25,14 +25,14 @@ const App = (props) => {
 App.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
-        id: PropTypes.number.isRequired,
-        picture: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        rating: PropTypes.number.isRequired,
-        isPremium: PropTypes.bool.isRequired,
-        isBookmark: PropTypes.bool.isRequired,
+        id: PropTypes.number,
+        picture: PropTypes.string,
+        price: PropTypes.number,
+        title: PropTypes.string,
+        type: PropTypes.string,
+        rating: PropTypes.number,
+        isPremium: PropTypes.bool,
+        isBookmark: PropTypes.bool,
         images: PropTypes.arrayOf(PropTypes.string),
         bedrooms: PropTypes.number,
         maxAdults: PropTypes.number,
@@ -44,6 +44,7 @@ App.propTypes = {
           name: PropTypes.string,
         }),
         description: PropTypes.string,
+        location: PropTypes.arrayOf(PropTypes.number),
       })
   ).isRequired
 };

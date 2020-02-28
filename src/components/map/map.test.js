@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './app.jsx';
+import Map from './map.jsx';
 
 const offers = [
   {
@@ -18,7 +18,7 @@ const offers = [
       `img/apartment-02.jpg`,
       `img/apartment-03.jpg`,
       `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
+      `img/apartment-01.jpg`
     ],
     bedrooms: 3,
     maxAdults: 4,
@@ -32,7 +32,7 @@ const offers = [
       `Kitchen`,
       `Dishwasher`,
       `Cabel TV`,
-      `Fridge`,
+      `Fridge`
     ],
     host: {
       avatar: `img/avatar-angelina.jpg`,
@@ -45,14 +45,15 @@ const offers = [
   },
 ];
 
-it(`App components renders correctly`, () => {
+it(`renders correctly Map`, () => {
   const tree = renderer.create(
-      <App
+      <Map
         offers={offers}
       />, {
         createNodeMock: () => {
           return document.createElement(`div`);
         },
       }).toJSON();
+
   expect(tree).toMatchSnapshot();
 });
