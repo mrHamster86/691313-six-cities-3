@@ -265,12 +265,7 @@ exports[`Main components renders correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className={
-                      Array [
-                        "place-card__bookmark-button",
-                        "button",
-                      ]
-                    }
+                    className="place-card__bookmark-button button "
                     type="button"
                   >
                     <svg
@@ -373,13 +368,7 @@ exports[`Main components renders correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className={
-                      Array [
-                        "place-card__bookmark-button",
-                        "button",
-                        "place-card__bookmark-button--active",
-                      ]
-                    }
+                    className="place-card__bookmark-button button place-card__bookmark-button--active"
                     type="button"
                   >
                     <svg

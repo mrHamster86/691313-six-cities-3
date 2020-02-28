@@ -51,7 +51,7 @@ const PlaceCard = (props) => {
             <span
               className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={bookmarkClassList}
+          <button className={`place-card__bookmark-button button ${isBookmark ? `place-card__bookmark-button--active` : ``}`}
             type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
@@ -76,7 +76,7 @@ const PlaceCard = (props) => {
 };
 
 PlaceCard.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   picture: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,

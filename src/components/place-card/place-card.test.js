@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import PlaceCard from './place-card.jsx';
 
-const id = `1`;
+const id = 1;
 const picture = `img/apartment-01.jpg`;
 const price = 120;
 const title = `Beautiful & luxurious apartment at great location`;
