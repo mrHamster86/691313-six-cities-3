@@ -6,7 +6,7 @@ class PlacesList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      activeCard: null,
+      activeCard: -1,
     };
   }
 
@@ -43,7 +43,7 @@ class PlacesList extends PureComponent {
 PlacesList.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         picture: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
@@ -51,8 +51,18 @@ PlacesList.propTypes = {
         rating: PropTypes.number.isRequired,
         isPremium: PropTypes.bool.isRequired,
         isBookmark: PropTypes.bool.isRequired,
-      })
-  ).isRequired
+        images: PropTypes.arrayOf(PropTypes.string),
+        bedrooms: PropTypes.number,
+        maxAdults: PropTypes.number,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatar: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        description: PropTypes.string,
+      })).isRequired
 };
 
 export default PlacesList;

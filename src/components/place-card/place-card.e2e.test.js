@@ -7,7 +7,7 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-const id = `2`;
+const id = 2;
 const picture = `img/apartment-02.jpg`;
 const price = 100;
 const title = `Wood and stone place`;
