@@ -383,14 +383,14 @@ const PlaceDetails = ({offer}) => {
 
 PlaceDetails.propTypes = {
   offer: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    picture: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    isBookmark: PropTypes.bool.isRequired,
+    id: PropTypes.number,
+    picture: PropTypes.string,
+    price: PropTypes.number,
+    title: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    isPremium: PropTypes.bool,
+    isBookmark: PropTypes.bool,
     images: PropTypes.arrayOf(PropTypes.string),
     bedrooms: PropTypes.number,
     maxAdults: PropTypes.number,
@@ -402,7 +402,8 @@ PlaceDetails.propTypes = {
       name: PropTypes.string,
     }),
     description: PropTypes.string,
-  }).isRequired,
+    location: PropTypes.arrayOf(PropTypes.number),
+  }).isRequired
 };
 
 export default PlaceDetails;
