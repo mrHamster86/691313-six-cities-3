@@ -25,10 +25,13 @@ const offers = [
   },
 ];
 
+const viewMode = `main`;
+
 it(`PlacesList components renders correctly`, () => {
   const tree = renderer.
     create(<PlacesList
       offers={offers}
+      viewMode={viewMode}
     />).
     toJSON();
   expect(tree).toMatchSnapshot();

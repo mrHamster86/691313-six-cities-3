@@ -105,10 +105,13 @@ const Main = (props) => {
                   </li>
                 </ul>
               </form>
-              <PlacesList offers={offers}/>
+              <PlacesList
+                viewMode={`main`}
+                offers={offers}
+              />
             </section>
             <div className="cities__right-section">
-              <Map offers={offers}/>
+              <Map offers={offers} viewMode={`main`}/>
             </div>
           </div>
         </div>

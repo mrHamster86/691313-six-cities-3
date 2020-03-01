@@ -8,9 +8,21 @@ class Map extends PureComponent {
     this._map = React.createRef();
   }
 
+  get _className() {
+    const {viewMode} = this.props;
+    switch (viewMode) {
+      case `main`:
+        return `cities__map`;
+      case `near`:
+        return `property__map`;
+      default:
+        return ``;
+    }
+  }
+
   render() {
     return (
-      <section className="cities__map map" ref={this._map}/>
+      <section className={`${this._className} map`} ref={this._map}/>
     );
   }
 
@@ -68,8 +80,17 @@ Map.propTypes = {
         }),
         description: PropTypes.string,
         location: PropTypes.arrayOf(PropTypes.number),
+        reviews: PropTypes.arrayOf(PropTypes.exact({
+          id: PropTypes.number,
+          user: PropTypes.string,
+          avatar: PropTypes.string,
+          rating: PropTypes.number,
+          date: PropTypes.string,
+          text: PropTypes.string,
+        }))
       })
-  ).isRequired
+  ).isRequired,
+  viewMode: PropTypes.oneOf([`main`, `near`])
 };
 
 export default Map;

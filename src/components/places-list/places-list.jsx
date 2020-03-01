@@ -16,14 +16,27 @@ class PlacesList extends PureComponent {
     }));
   }
 
+  get _className() {
+    const {viewMode} = this.props;
+    switch (viewMode) {
+      case `main`:
+        return `cities__places-list tabs__content`;
+      case `near`:
+        return `near-places__list`;
+      default:
+        return ``;
+    }
+  }
+
   render() {
-    const {offers} = this.props;
+    const {offers, viewMode} = this.props;
 
     return (
-      <div className="cities__places-list places__list tabs__content">
+      <div className={`${this._className} places__list`}>
         {offers.map((place) => (
           <PlaceCard
             key={place.id}
+            viewMode={viewMode}
             id={place.id}
             picture={place.picture}
             price={place.price}
@@ -64,7 +77,8 @@ PlacesList.propTypes = {
         description: PropTypes.string,
         location: PropTypes.arrayOf(PropTypes.number),
       })
-  ).isRequired
+  ).isRequired,
+  viewMode: PropTypes.oneOf([`main`, `near`]).isRequired,
 };
 
 export default PlacesList;
