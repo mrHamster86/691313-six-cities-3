@@ -6,7 +6,7 @@ export default [
     title: `Beautiful & luxurious apartment at great location`,
     type: `apartment`,
     rating: 4,
-    isPremium: false,
+    isPremium: true,
     isBookmark: false,
     images: [
       `img/room.jpg`,
@@ -38,5 +38,15 @@ export default [
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
     location: [52.3909553943508, 4.85309666406198],
+    reviews: [
+      {
+        id: 1,
+        user: `Max`,
+        avatar: `img/avatar-max.jpg`,
+        rating: 4,
+        date: `December 24, 2018`,
+        text: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      }
+    ]
   },
 ];

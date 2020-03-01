@@ -13,6 +13,7 @@ const PlaceCard = (props) => {
     isPremium,
     isBookmark,
     onMouseenter,
+    viewMode,
   } = props;
 
   const cardMark = () => (
@@ -21,20 +22,36 @@ const PlaceCard = (props) => {
     </div>
   );
 
-  const bookmarkClassList = [`place-card__bookmark-button`, `button`];
+  const articleClassName = (() => {
+    switch (viewMode) {
+      case `main`:
+        return `cities__place-card`;
+      case `near`:
+        return `near-places__card`;
+      default:
+        return ``;
+    }
+  })();
 
-  if (isBookmark) {
-    bookmarkClassList.push(`place-card__bookmark-button--active`);
-  }
+  const wrapperClassName = (() => {
+    switch (viewMode) {
+      case `main`:
+        return `cities__image-wrapper`;
+      case `near`:
+        return `near-places__image-wrapper`;
+      default:
+        return ``;
+    }
+  })();
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={`${articleClassName} place-card`}
       onMouseEnter={() => onMouseenter(id)}
     >
-      {isPremium ? cardMark() : null}
+      {isPremium && viewMode === `main` ? cardMark() : null}
       <div
-        className="cities__image-wrapper place-card__image-wrapper">
+        className={`${wrapperClassName} place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image"
             src={picture}
@@ -51,7 +68,7 @@ const PlaceCard = (props) => {
             <span
               className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isBookmark ? `place-card__bookmark-button--active` : ``}`}
+          <button className={`place-card__bookmark-button button ${isBookmark && `place-card__bookmark-button--active`}`}
             type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
@@ -85,6 +102,7 @@ PlaceCard.propTypes = {
   isPremium: PropTypes.bool.isRequired,
   isBookmark: PropTypes.bool.isRequired,
   onMouseenter: PropTypes.func.isRequired,
+  viewMode: PropTypes.string.isRequired,
 };
 
 export default PlaceCard;

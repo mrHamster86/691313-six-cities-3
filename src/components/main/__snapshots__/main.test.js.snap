@@ -222,7 +222,7 @@ exports[`Main components renders correctly 1`] = `
             </ul>
           </form>
           <div
-            className="cities__places-list places__list tabs__content"
+            className="cities__places-list tabs__content places__list"
           >
             <article
               className="cities__place-card place-card"
@@ -265,7 +265,7 @@ exports[`Main components renders correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button button "
+                    className="place-card__bookmark-button button false"
                     type="button"
                   >
                     <svg

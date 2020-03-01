@@ -15,6 +15,7 @@ const type = `room`;
 const rating = 4;
 const isPremium = true;
 const isBookmark = true;
+const viewMode = `main`;
 
 describe(`Mouse events`, () => {
   const handelCardMouseenter = jest.fn((arg) => arg);
@@ -29,6 +30,7 @@ describe(`Mouse events`, () => {
     isPremium={isPremium}
     isBookmark={isBookmark}
     onMouseenter={handelCardMouseenter}
+    viewMode={viewMode}
   />);
 
   it(`Mouseenter on placeCard should pass to the callback id of place card`, () => {

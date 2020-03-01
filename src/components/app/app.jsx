@@ -14,7 +14,7 @@ const App = (props) => {
             offers={offers}
           />
         </Route>
-        <Route exact patch="/dev">
+        <Route patch="/dev-component">
           <PlaceDetails offer={offers[0]}/>
         </Route>
       </Switch>

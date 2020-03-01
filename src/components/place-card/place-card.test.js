@@ -11,6 +11,7 @@ const rating = 4;
 const isPremium = false;
 const isBookmark = false;
 const onMouseenter = () => {};
+const viewMode = `main`;
 
 it(`PlaceCard components renders correctly`, () => {
   const tree = renderer.
@@ -24,6 +25,7 @@ it(`PlaceCard components renders correctly`, () => {
       isPremium={isPremium}
       isBookmark={isBookmark}
       onMouseenter={onMouseenter}
+      viewMode={viewMode}
     />).
     toJSON();
   expect(tree).toMatchSnapshot();
