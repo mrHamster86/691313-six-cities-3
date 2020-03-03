@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import Main from '../main/main.jsx';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import PlaceDetails from '../place-detail/place-detail.jsx';
+import {connect} from 'react-redux';
 
-const App = (props) => {
+export const App = (props) => {
   const {offers} = props;
   return (
     <BrowserRouter>
@@ -21,6 +22,10 @@ const App = (props) => {
     </BrowserRouter>
   );
 };
+
+const mapStateToProps = (state) => ({
+  offers: state.offers.filter((offer) => offer.city === state.city),
+});
 
 App.propTypes = {
   offers: PropTypes.arrayOf(
@@ -49,4 +54,4 @@ App.propTypes = {
   ).isRequired
 };
 
-export default App;
+export default connect(mapStateToProps, null)(App);
