@@ -2,19 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {OFFERS_SORT_ITEMS} from '../../constatnts';
-import withBooleanFlag from '../../hocs/with-boolean-flag/with-boolean-flag';
+import withBooleanState from '../../hocs/with-boolean-state/with-boolean-state';
+import {ActionCreator} from '../../reducer';
 
-export const PlacesSorting = ({currentSort, changeSort, booleanFlag, onToggleFlag}) => {
-  const onSelectSort = (event) => {
-    changeSort(event.currentTarget.innerText);
-  };
-
+export const PlacesSorting = ({currentSort, changeSort, booleanState, onToggle}) => {
   return (
     <form
       className="places__sorting"
       action="#"
       method="get"
-      onClick={onToggleFlag}
+      onClick={onToggle}
     >
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex="0">
@@ -23,13 +20,13 @@ export const PlacesSorting = ({currentSort, changeSort, booleanFlag, onToggleFla
           <use xlinkHref="#icon-arrow-select"/>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${booleanFlag && `places__options--opened`}`}>
+      <ul className={`places__options places__options--custom ${booleanState && `places__options--opened`}`}>
         {OFFERS_SORT_ITEMS.map((sort) => (
           <li
             key={sort}
             className={`places__option ${sort === currentSort && `places__option--active`}`}
             tabIndex="0"
-            onClick={onSelectSort}
+            onClick={changeSort.bind({}, sort)}
           >{sort}</li>
         ))}
       </ul>
@@ -41,15 +38,15 @@ const mapStateToProps = ({sort}) => ({
   currentSort: sort
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  changeSort: (sort) => dispatch({type: `CHANGE_SORT`, payload: {sort}})
-});
+const mapDispatchToProps = {
+  changeSort: (sort) => ActionCreator.changeSort(sort)
+};
 
 PlacesSorting.propTypes = {
   currentSort: PropTypes.string.isRequired,
   changeSort: PropTypes.func.isRequired,
-  booleanFlag: PropTypes.bool.isRequired,
-  onToggleFlag: PropTypes.func.isRequired,
+  booleanState: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withBooleanFlag(PlacesSorting));
+export default connect(mapStateToProps, mapDispatchToProps)(withBooleanState(PlacesSorting));
