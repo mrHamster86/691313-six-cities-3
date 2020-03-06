@@ -1,25 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {citiesList} from '../../selectors';
+import {ActionCreator} from '../../reducer';
 
 export const CitiesList = ({currentCity, cities, changeCity}) => {
-  const onChangeCity = (event) => {
-    event.preventDefault();
-    changeCity(event.target.innerText);
-  };
-
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {cities.map((city) => (
-            <li key={city} className="locations__item">
+            <li key={city.name} className="locations__item">
               <a
-                className={`locations__item-link tabs__item ${currentCity === city && `tabs__item--active`}`}
-                onClick={onChangeCity}
+                className={`locations__item-link tabs__item ${currentCity.name === city.name && `tabs__item--active`}`}
+                onClick={changeCity.bind({}, city)}
                 href="#"
               >
-                <span>{city}</span>
+                <span>{city.name}</span>
               </a>
             </li>
           ))}
@@ -29,20 +26,33 @@ export const CitiesList = ({currentCity, cities, changeCity}) => {
   );
 };
 
-const mapStateToProps = ({offers, city}) => ({
-  currentCity: city,
-  cities: offers.reduce((accumulator, offer) => {
-    return accumulator.includes(offer.city) ? accumulator : [...accumulator, offer.city];
-  }, [])
+const mapStateToProps = (state) => ({
+  currentCity: state.city,
+  cities: citiesList(state)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  changeCity: (city) => dispatch({type: `CHANGE_CITY`, payload: {city}})
-});
+const mapDispatchToProps = {
+  changeCity: (city) => ActionCreator.changeCity(city)
+};
 
 CitiesList.propTypes = {
-  currentCity: PropTypes.string.isRequired,
-  cities: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentCity: PropTypes.exact({
+    "location": PropTypes.exact({
+      "latitude": PropTypes.number,
+      "longitude": PropTypes.number,
+      "zoom": PropTypes.number
+    }),
+    "name": PropTypes.string,
+  }).isRequired,
+  cities: PropTypes.arrayOf(
+      PropTypes.exact({
+        "location": PropTypes.exact({
+          "latitude": PropTypes.number,
+          "longitude": PropTypes.number,
+          "zoom": PropTypes.number
+        }),
+        "name": PropTypes.string
+      })).isRequired,
   changeCity: PropTypes.func.isRequired,
 };
 

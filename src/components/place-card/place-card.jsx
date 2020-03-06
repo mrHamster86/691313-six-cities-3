@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 
 const PlaceCard = (props) => {
@@ -12,9 +12,12 @@ const PlaceCard = (props) => {
     rating,
     isPremium,
     isBookmark,
-    onMouseenter,
+    onActiveOffer,
     viewMode,
   } = props;
+
+  const handleMouseenter = (activeOffer) => onActiveOffer(activeOffer);
+  const handleMouseleave = () => onActiveOffer();
 
   const cardMark = () => (
     <div className="place-card__mark">
@@ -22,7 +25,7 @@ const PlaceCard = (props) => {
     </div>
   );
 
-  const articleClassName = (() => {
+  const articleClassName = () => {
     switch (viewMode) {
       case `main`:
         return `cities__place-card`;
@@ -31,9 +34,9 @@ const PlaceCard = (props) => {
       default:
         return ``;
     }
-  })();
+  };
 
-  const wrapperClassName = (() => {
+  const wrapperClassName = () => {
     switch (viewMode) {
       case `main`:
         return `cities__image-wrapper`;
@@ -42,16 +45,15 @@ const PlaceCard = (props) => {
       default:
         return ``;
     }
-  })();
+  };
 
   return (
     <article
-      className={`${articleClassName} place-card`}
-      onMouseEnter={() => onMouseenter(id)}
+      className={`${articleClassName()} place-card`}
     >
       {isPremium && viewMode === `main` ? cardMark() : null}
       <div
-        className={`${wrapperClassName} place-card__image-wrapper`}>
+        className={`${wrapperClassName()} place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image"
             src={picture}
@@ -84,7 +86,11 @@ const PlaceCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <a
+            href="#"
+            onMouseEnter={handleMouseenter.bind({}, id)}
+            onMouseLeave={handleMouseleave}
+          >{title}</a>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -101,8 +107,8 @@ PlaceCard.propTypes = {
   rating: PropTypes.number.isRequired,
   isPremium: PropTypes.bool.isRequired,
   isBookmark: PropTypes.bool.isRequired,
-  onMouseenter: PropTypes.func.isRequired,
+  onActiveOffer: PropTypes.func.isRequired,
   viewMode: PropTypes.string.isRequired,
 };
 
-export default PlaceCard;
+export default memo(PlaceCard);

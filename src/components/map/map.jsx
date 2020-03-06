@@ -1,14 +1,16 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as leaflet from 'leaflet';
 
-class Map extends PureComponent {
+class Map extends Component {
   constructor(props) {
     super(props);
-    this._map = React.createRef();
+    this._mapRef = React.createRef();
+    this._map = null;
+    this._markers = [];
   }
 
-  get _className() {
+  _className() {
     const {viewMode} = this.props;
     switch (viewMode) {
       case `main`:
@@ -20,77 +22,140 @@ class Map extends PureComponent {
     }
   }
 
+  _getMarkerTemplate(isActive = false) {
+    return leaflet.icon({
+      iconUrl: isActive ? `img/pin-active.svg` : `img/pin.svg`,
+      iconSize: [30, 30],
+    });
+  }
+
+  _initMap() {
+    const {currentCity: {location}} = this.props;
+    const city = [location.latitude, location.longitude];
+    const zoom = location.zoom;
+
+    this._map = leaflet.map(this._mapRef.current, {
+      center: city,
+      zoom,
+      zoomControl: false,
+      marker: true,
+    });
+
+    this._map.setView(city, zoom);
+
+    leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
+      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+    }).addTo(this._map);
+
+    this._addMarkers();
+  }
+
+  _addMarkers() {
+    const {offers, activeOffer} = this.props;
+
+
+    offers.forEach((offer) => {
+      const {location: {latitude, longitude}} = offer;
+      const coordinates = [latitude, longitude];
+      const isActive = offer.id === activeOffer;
+
+      const icon = this._getMarkerTemplate(isActive);
+      const marker = leaflet.marker(coordinates, {icon}).addTo(this._map);
+      this._markers.push(marker);
+    });
+  }
+
+  _clearMarkers() {
+    this._markers.forEach((marker) => {
+      this._map.removeLayer(marker);
+    });
+    this._markers = [];
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const nextCurrentCity = nextProps.currentCity.name;
+    const currentCity = this.props.currentCity.name;
+    const nextActiveOffer = nextProps.activeOffer;
+    const activeOffer = this.props.activeOffer;
+
+    if (nextCurrentCity !== currentCity) {
+      return true;
+    }
+
+    if (nextActiveOffer !== activeOffer) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     return (
-      <section className={`${this._className} map`} ref={this._map}/>
+      <section className={`${this._className()} map`} ref={this._mapRef}/>
     );
   }
 
   componentDidMount() {
-    const city = [52.38333, 4.9];
+    this._initMap();
+  }
 
-    const icon = leaflet.icon({
-      iconUrl: `img/pin.svg`,
-      iconSize: [30, 30]
-    });
+  componentDidUpdate() {
+    this._clearMarkers();
+    this._addMarkers();
+  }
 
-    const zoom = 12;
-    const map = leaflet.map(this._map.current, {
-      center: city,
-      zoom,
-      zoomControl: false,
-      marker: true
-    });
-    map.setView(city, zoom);
-
-    leaflet
-    .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-    })
-    .addTo(map);
-
-    const {offers} = this.props;
-
-    offers.forEach((offer) => {
-      leaflet.marker(offer.location, {icon}).addTo(map);
-    });
+  componentWillUnmount() {
+    this._map.remove();
   }
 }
 
 Map.propTypes = {
+  activeOffer: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.number,
-        picture: PropTypes.string,
-        price: PropTypes.number,
-        title: PropTypes.string,
-        type: PropTypes.string,
-        rating: PropTypes.number,
-        isPremium: PropTypes.bool,
-        isBookmark: PropTypes.bool,
-        images: PropTypes.arrayOf(PropTypes.string),
-        bedrooms: PropTypes.number,
-        maxAdults: PropTypes.number,
-        goods: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.exact({
-          avatar: PropTypes.string,
-          id: PropTypes.number,
-          isPro: PropTypes.bool,
-          name: PropTypes.string,
+    PropTypes.exact({
+      'id': PropTypes.number,
+      'preview_image': PropTypes.string,
+      'price': PropTypes.number,
+      'title': PropTypes.string,
+      'type': PropTypes.string,
+      'rating': PropTypes.number,
+      'is_premium': PropTypes.bool,
+      'is_favorite': PropTypes.bool,
+      'images': PropTypes.arrayOf(PropTypes.string),
+      'bedrooms': PropTypes.number,
+      'max_adults': PropTypes.number,
+      'goods': PropTypes.arrayOf(PropTypes.string),
+      'host': PropTypes.exact({
+        'avatar_url': PropTypes.string,
+        'id': PropTypes.number,
+        'is_pro': PropTypes.bool,
+        'name': PropTypes.string,
+      }),
+      'description': PropTypes.string,
+      'location': PropTypes.exact({
+        'latitude': PropTypes.number,
+        'longitude': PropTypes.number,
+        'zoom': PropTypes.number,
+      }),
+      'city': PropTypes.exact({
+        'location': PropTypes.exact({
+          'latitude': PropTypes.number,
+          'longitude': PropTypes.number,
+          'zoom': PropTypes.number,
         }),
-        description: PropTypes.string,
-        location: PropTypes.arrayOf(PropTypes.number),
-        reviews: PropTypes.arrayOf(PropTypes.exact({
-          id: PropTypes.number,
-          user: PropTypes.string,
-          avatar: PropTypes.string,
-          rating: PropTypes.number,
-          date: PropTypes.string,
-          text: PropTypes.string,
-        }))
-      })
+        'name': PropTypes.string,
+      }),
+    }),
   ).isRequired,
-  viewMode: PropTypes.oneOf([`main`, `near`])
+  currentCity: PropTypes.exact({
+    'location': PropTypes.exact({
+      'latitude': PropTypes.number,
+      'longitude': PropTypes.number,
+      'zoom': PropTypes.number,
+    }),
+    'name': PropTypes.string,
+  }).isRequired,
+  viewMode: PropTypes.oneOf([`main`, `near`]),
 };
 
 export default Map;

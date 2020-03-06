@@ -1,95 +1,128 @@
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import PlacesList from '../places-list/places-list.jsx';
 import Map from '../map/map.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
 import PlacesSorting from '../places-sorting/places-sorting.jsx';
+import Header from '../header/header.jsx';
+import {connect} from 'react-redux';
+import {cityOffers} from '../../selectors';
+import {ActionCreator} from '../../reducer';
 
-const Main = (props) => {
-  const {offers} = props;
+export const Main = (props) => {
+  const MAP_VIEW_MODE = `main`;
+  const {offers, currentCity, activeOffer, changeActiveOffer} = props;
   const placesCount = offers.length;
+
+  const renderMain = () => (
+    <div className="cities">
+      <div className="cities__places-container container">
+        <section className="cities__places places">
+          <h2 className="visually-hidden">Places</h2>
+          <b className="places__found">{placesCount} places to stay in {currentCity.name}</b>
+          <PlacesSorting/>
+          <PlacesList
+            viewMode={MAP_VIEW_MODE}
+            offers={offers}
+            onActiveOffer={changeActiveOffer}
+          />
+        </section>
+        <div className="cities__right-section">
+          <Map
+            offers={offers}
+            currentCity={currentCity}
+            activeOffer={activeOffer}
+            viewMode={MAP_VIEW_MODE}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderMainEmpty = () => (
+    <div className="cities">
+      <div className="cities__places-container cities__places-container--empty container">
+        <section className="cities__no-places">
+          <div className="cities__status-wrapper tabs__content">
+            <b className="cities__status">No places to stay available</b>
+            <p className="cities__status-description">We could not find any
+              property availbale at the moment in {currentCity.name}</p>
+          </div>
+        </section>
+        <div className="cities__right-section"/>
+      </div>
+    </div>
+  );
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img className="header__logo" src="img/logo.svg"
-                  alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile"
-                    href="#">
-                    <div
-                      className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span
-                      className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList/>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in
-                Amsterdam</b>
-              <PlacesSorting
-                booleanFlag={false}
-              />
-              <PlacesList
-                viewMode={`main`}
-                offers={offers}
-              />
-            </section>
-            <div className="cities__right-section">
-              <Map offers={offers} viewMode={`main`}/>
-            </div>
-          </div>
-        </div>
+        {placesCount > 0 ? renderMain() : renderMainEmpty()}
       </main>
     </div>
   );
 };
 
-Main.propTypes = {
-  offers: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.number,
-        picture: PropTypes.string,
-        price: PropTypes.number,
-        title: PropTypes.string,
-        type: PropTypes.string,
-        rating: PropTypes.number,
-        isPremium: PropTypes.bool,
-        isBookmark: PropTypes.bool,
-        images: PropTypes.arrayOf(PropTypes.string),
-        bedrooms: PropTypes.number,
-        maxAdults: PropTypes.number,
-        goods: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.exact({
-          avatar: PropTypes.string,
-          id: PropTypes.number,
-          isPro: PropTypes.bool,
-          name: PropTypes.string,
-        }),
-        description: PropTypes.string,
-        location: PropTypes.arrayOf(PropTypes.number),
-      })
-  ).isRequired
+const mapStateToProps = (state) => ({
+  currentCity: state.city,
+  activeOffer: state.activeOffer,
+  offers: cityOffers(state),
+});
+
+const mapDispatchToProps = {
+  changeActiveOffer: (activeOffer) => ActionCreator.changeActiveOffer(activeOffer)
 };
 
-export default Main;
+Main.propTypes = {
+  activeOffer: PropTypes.number.isRequired,
+  currentCity: PropTypes.exact({
+    "location": PropTypes.exact({
+      "latitude": PropTypes.number,
+      "longitude": PropTypes.number,
+      "zoom": PropTypes.number
+    }),
+    "name": PropTypes.string,
+  }).isRequired,
+  offers: PropTypes.arrayOf(
+      PropTypes.exact({
+        "id": PropTypes.number,
+        "preview_image": PropTypes.string,
+        "price": PropTypes.number,
+        "title": PropTypes.string,
+        "type": PropTypes.string,
+        "rating": PropTypes.number,
+        "is_premium": PropTypes.bool,
+        "is_favorite": PropTypes.bool,
+        "images": PropTypes.arrayOf(PropTypes.string),
+        "bedrooms": PropTypes.number,
+        "max_adults": PropTypes.number,
+        "goods": PropTypes.arrayOf(PropTypes.string),
+        "host": PropTypes.exact({
+          "avatar_url": PropTypes.string,
+          "id": PropTypes.number,
+          "is_pro": PropTypes.bool,
+          "name": PropTypes.string,
+        }),
+        "description": PropTypes.string,
+        "location": PropTypes.exact({
+          "latitude": PropTypes.number,
+          "longitude": PropTypes.number,
+          "zoom": PropTypes.number
+        }),
+        "city": PropTypes.exact({
+          "location": PropTypes.exact({
+            "latitude": PropTypes.number,
+            "longitude": PropTypes.number,
+            "zoom": PropTypes.number
+          }),
+          "name": PropTypes.string,
+        }),
+      })
+  ).isRequired,
+  changeActiveOffer: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Main));

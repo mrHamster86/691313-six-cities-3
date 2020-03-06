@@ -3,17 +3,17 @@ import renderer from 'react-test-renderer';
 import {PlacesSorting} from './places-sorting.jsx';
 
 const currentSort = `Popular`;
-const changeSort = [`Popular`, `Price: low to high`, `Price: high to low`, `Top rated first`];
-const booleanFlag = false;
-const onToggleFlag = () => {};
+const changeSort = () => {};
+const booleanState = false;
+const onToggle = () => {};
 
 it(`PlacesSorting components renders correctly`, () => {
   const tree = renderer.
     create(<PlacesSorting
       currentSort={currentSort}
       changeSort={changeSort}
-      booleanFlag={booleanFlag}
-      onToggleFlag={onToggleFlag}
+      booleanState={booleanState}
+      onToggle={onToggle}
     />).
     toJSON();
   expect(tree).toMatchSnapshot();
