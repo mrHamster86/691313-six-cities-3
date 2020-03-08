@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect';
-import {SORT_TYPE} from './constatnts';
+import {SORT_TYPE} from '../../constatnts';
+import NameSpace from '../name-space';
 
 const offersSort = (offers, sort) => {
   switch (sort) {
@@ -13,9 +14,9 @@ const offersSort = (offers, sort) => {
   return [...offers];
 };
 
-const offersSelector = (state) => state.offers;
-const citySelector = (state) => state.city;
-const sortSelector = (state) => state.sort;
+const offersSelector = (state) => state[NameSpace.OFFERS].offers;
+const citySelector = (state) => state[NameSpace.OFFERS].city;
+const sortSelector = (state) => state[NameSpace.OFFERS].sort;
 
 const groupOffersSelector = createSelector(
     offersSelector,

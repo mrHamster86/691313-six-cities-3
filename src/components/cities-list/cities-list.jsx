@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {citiesList} from '../../selectors';
-import {ActionCreator} from '../../reducer';
+import {citiesList} from '../../reducer/offers/selectors';
+import {ActionCreator} from '../../reducer/offers/reducer';
+import NameSpace from '../../reducer/name-space';
 
 export const CitiesList = ({selectCity, cities, changeCity}) => {
   return (
@@ -27,7 +28,7 @@ export const CitiesList = ({selectCity, cities, changeCity}) => {
 };
 
 const mapStateToProps = (state) => ({
-  selectCity: state.city,
+  selectCity: state[NameSpace.OFFERS].city,
   cities: citiesList(state)
 });
 

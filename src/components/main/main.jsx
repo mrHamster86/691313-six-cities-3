@@ -6,9 +6,10 @@ import CitiesList from '../cities-list/cities-list.jsx';
 import PlacesSorting from '../places-sorting/places-sorting.jsx';
 import Header from '../header/header.jsx';
 import {connect} from 'react-redux';
-import {cityOffers, selectCity} from '../../selectors';
-import {ActionCreator} from '../../reducer';
+import {cityOffers, selectCity} from '../../reducer/offers/selectors';
+import {ActionCreator} from '../../reducer/offers/reducer';
 import MainEmpty from '../main-empty/main-empty.jsx';
+import NameSpace from '../../reducer/name-space';
 
 export const Main = (props) => {
   const MAP_VIEW_MODE = `main`;
@@ -54,7 +55,7 @@ export const Main = (props) => {
 
 const mapStateToProps = (state) => ({
   currentCity: selectCity(state),
-  activeOffer: state.activeOffer,
+  activeOffer: state[NameSpace.OFFERS].activeOffer,
   offers: cityOffers(state),
 });
 
