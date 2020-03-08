@@ -33,12 +33,22 @@ const groupOffersSelector = createSelector(
       return {groupCitiesByName, groupOffersByCity};
     });
 
-export const cityOffers = createSelector(
-    groupOffersSelector,
-    citySelector,
-    sortSelector,
-    ({groupOffersByCity}, city, sort) => offersSort(groupOffersByCity[city.name], sort));
-
 export const citiesList = createSelector(
     groupOffersSelector,
     ({groupCitiesByName}) => Object.keys(groupCitiesByName).map((name) => groupCitiesByName[name]));
+
+export const selectCity = createSelector(
+    citySelector,
+    groupOffersSelector,
+    (city, {groupCitiesByName}) => groupCitiesByName[city]);
+
+export const cityOffers = createSelector(
+    offersSelector,
+    groupOffersSelector,
+    citySelector,
+    sortSelector,
+    (offers, {groupOffersByCity}, city, sort) => {
+      return offers.length ? offersSort(groupOffersByCity[city], sort) : [];
+    });
+
+
