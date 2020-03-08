@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {OFFERS_SORT_ITEMS} from '../../constatnts';
 import withBooleanState from '../../hocs/with-boolean-state/with-boolean-state';
-import {ActionCreator} from '../../reducer';
+import {ActionCreator} from '../../reducer/offers/reducer';
+import NameSpace from '../../reducer/name-space';
 
 export const PlacesSorting = ({currentSort, changeSort, booleanState, onToggle}) => {
   return (
@@ -34,8 +35,8 @@ export const PlacesSorting = ({currentSort, changeSort, booleanState, onToggle})
   );
 };
 
-const mapStateToProps = ({sort}) => ({
-  currentSort: sort
+const mapStateToProps = (state) => ({
+  currentSort: state[NameSpace.OFFERS].sort
 });
 
 const mapDispatchToProps = {

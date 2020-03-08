@@ -1,6 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import NameSpace from '../../reducer/name-space';
+import {connect} from 'react-redux';
+import {AuthorizationStatus} from '../../reducer/user/reducer';
 
-const Header = () => {
+const Header = ({authorizationStatus, user}) => {
+  const userAuth = () => (
+    <a className="header__nav-link header__nav-link--profile"
+      href="#">
+      <div className="header__avatar-wrapper user__avatar-wrapper">
+      </div>
+      <span
+        className="header__user-name user__name">{user.email}</span>
+    </a>
+  );
+
+  const singInLink = () => (
+    <a className="header__nav-link header__nav-link--profile"
+      href="/login">
+      <div className="header__avatar-wrapper user__avatar-wrapper">
+      </div>
+      <span className="header__login">Sign in</span>
+    </a>
+  );
+
   return (
     <header className="header">
       <div className="container">
@@ -14,14 +37,7 @@ const Header = () => {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                <a className="header__nav-link header__nav-link--profile"
-                  href="#">
-                  <div
-                    className="header__avatar-wrapper user__avatar-wrapper">
-                  </div>
-                  <span
-                    className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                </a>
+                {authorizationStatus === AuthorizationStatus.AUTH ? userAuth() : singInLink()}
               </li>
             </ul>
           </nav>
@@ -31,6 +47,20 @@ const Header = () => {
   );
 };
 
-Header.propTypes = {};
+const mapStateToProps = (state) => ({
+  authorizationStatus: state[NameSpace.USER].authorizationStatus,
+  user: state[NameSpace.USER].user,
+});
 
-export default Header;
+Header.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
+  user: PropTypes.exact({
+    "id": PropTypes.number,
+    "email": PropTypes.string,
+    "name": PropTypes.string,
+    "avatar_url": PropTypes.string,
+    "is_pro": PropTypes.string,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps, null)(Header);

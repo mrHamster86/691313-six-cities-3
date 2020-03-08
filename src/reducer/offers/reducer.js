@@ -1,5 +1,5 @@
-import {extend} from './utils';
-import {OFFERS_SORT_ITEMS} from './constatnts';
+import {extend} from '../../utils';
+import {OFFERS_SORT_ITEMS} from '../../constatnts';
 
 const initialState = {
   city: `Amsterdam`,
@@ -60,4 +60,9 @@ const reducer = (state = initialState, {type, payload}) => {
   return state;
 };
 
-export {ActionType, ActionCreator, reducer, Operation};
+export {
+  ActionType,
+  ActionCreator,
+  reducer,
+  Operation
+};

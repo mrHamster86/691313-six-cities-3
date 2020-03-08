@@ -3,12 +3,21 @@ import React from 'react';
 import App from './components/app/app.jsx';
 import {applyMiddleware, createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {Operation, reducer} from './reducer';
+import reducer from './reducer/reducer';
+import {
+  ActionCreator, AuthorizationStatus,
+  Operation as UserOperation,
+} from './reducer/user/reducer';
+import {Operation as OffersOperation} from './reducer/offers/reducer';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import createAPI from './api';
 
-const api = createAPI();
+const onUnauthorized = () => {
+  store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+};
+
+const api = createAPI(onUnauthorized);
 
 const store = createStore(
     reducer,
@@ -16,7 +25,8 @@ const store = createStore(
         applyMiddleware(thunk.withExtraArgument(api))
     ));
 
-store.dispatch(Operation.loadOffers());
+store.dispatch(OffersOperation.loadOffers());
+store.dispatch(UserOperation.checkAuth());
 
 const root = document.getElementById(`root`);
 
