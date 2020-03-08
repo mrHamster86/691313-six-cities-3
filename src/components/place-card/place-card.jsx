@@ -50,6 +50,8 @@ const PlaceCard = (props) => {
   return (
     <article
       className={`${articleClassName()} place-card`}
+      onMouseEnter={handleMouseenter.bind({}, id)}
+      onMouseLeave={handleMouseleave}
     >
       {isPremium && viewMode === `main` ? cardMark() : null}
       <div
@@ -86,11 +88,7 @@ const PlaceCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a
-            href="#"
-            onMouseEnter={handleMouseenter.bind({}, id)}
-            onMouseLeave={handleMouseleave}
-          >{title}</a>
+          <a href="#">{title}</a>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

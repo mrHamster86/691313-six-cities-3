@@ -6,9 +6,9 @@ import CitiesList from '../cities-list/cities-list.jsx';
 import PlacesSorting from '../places-sorting/places-sorting.jsx';
 import Header from '../header/header.jsx';
 import {connect} from 'react-redux';
-import {cityOffers} from '../../selectors';
+import {cityOffers, selectCity} from '../../selectors';
 import {ActionCreator} from '../../reducer';
-import MainEmpty from '../main-empty/main-empty';
+import MainEmpty from '../main-empty/main-empty.jsx';
 
 export const Main = (props) => {
   const MAP_VIEW_MODE = `main`;
@@ -46,14 +46,14 @@ export const Main = (props) => {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList/>
-        {placesCount > 0 ? renderMain() : <MainEmpty cityName={currentCity.name}/>}
+        {placesCount > 0 ? renderMain() : <MainEmpty/>}
       </main>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  currentCity: state.city,
+  currentCity: selectCity(state),
   activeOffer: state.activeOffer,
   offers: cityOffers(state),
 });
@@ -71,7 +71,7 @@ Main.propTypes = {
       "zoom": PropTypes.number
     }),
     "name": PropTypes.string,
-  }).isRequired,
+  }),
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         "id": PropTypes.number,
@@ -110,5 +110,6 @@ Main.propTypes = {
   ).isRequired,
   changeActiveOffer: PropTypes.func.isRequired,
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(Main));

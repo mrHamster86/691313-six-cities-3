@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {citiesList} from '../../selectors';
 import {ActionCreator} from '../../reducer';
 
-export const CitiesList = ({currentCity, cities, changeCity}) => {
+export const CitiesList = ({selectCity, cities, changeCity}) => {
   return (
     <div className="tabs">
       <section className="locations container">
@@ -12,8 +12,8 @@ export const CitiesList = ({currentCity, cities, changeCity}) => {
           {cities.map((city) => (
             <li key={city.name} className="locations__item">
               <a
-                className={`locations__item-link tabs__item ${currentCity.name === city.name && `tabs__item--active`}`}
-                onClick={changeCity.bind({}, city)}
+                className={`locations__item-link tabs__item ${selectCity === city.name && `tabs__item--active`}`}
+                onClick={changeCity.bind({}, city.name)}
                 href="#"
               >
                 <span>{city.name}</span>
@@ -27,7 +27,7 @@ export const CitiesList = ({currentCity, cities, changeCity}) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentCity: state.city,
+  selectCity: state.city,
   cities: citiesList(state)
 });
 
@@ -36,14 +36,7 @@ const mapDispatchToProps = {
 };
 
 CitiesList.propTypes = {
-  currentCity: PropTypes.exact({
-    "location": PropTypes.exact({
-      "latitude": PropTypes.number,
-      "longitude": PropTypes.number,
-      "zoom": PropTypes.number
-    }),
-    "name": PropTypes.string,
-  }).isRequired,
+  selectCity: PropTypes.string.isRequired,
   cities: PropTypes.arrayOf(
       PropTypes.exact({
         "location": PropTypes.exact({
