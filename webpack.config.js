@@ -7,8 +7,8 @@ module.exports = {
     path: path.join(__dirname, `public`)
   },
   devServer: {
-    historyApiFallback: true,
     contentBase: path.join(__dirname, `public`),
+    historyApiFallback: true,
     open: false,
     port: 1337,
   },
