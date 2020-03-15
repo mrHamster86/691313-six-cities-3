@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as leaflet from 'leaflet';
+import {MapMode} from '../../constatnts';
 
 class Map extends Component {
   constructor(props) {
@@ -13,9 +14,9 @@ class Map extends Component {
   _className() {
     const {viewMode} = this.props;
     switch (viewMode) {
-      case `main`:
+      case MapMode.MAIN:
         return `cities__map`;
-      case `near`:
+      case MapMode.NEAR:
         return `property__map`;
       default:
         return ``;
@@ -24,7 +25,7 @@ class Map extends Component {
 
   _getMarkerTemplate(isActive = false) {
     return leaflet.icon({
-      iconUrl: isActive ? `img/pin-active.svg` : `img/pin.svg`,
+      iconUrl: isActive ? `/img/pin-active.svg` : `/img/pin.svg`,
       iconSize: [30, 30],
     });
   }
@@ -113,43 +114,42 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  activeOffer: PropTypes.number.isRequired,
+  activeOffer: PropTypes.number,
   offers: PropTypes.arrayOf(
-    PropTypes.exact({
-      'id': PropTypes.number,
-      'preview_image': PropTypes.string,
-      'price': PropTypes.number,
-      'title': PropTypes.string,
-      'type': PropTypes.string,
-      'rating': PropTypes.number,
-      'is_premium': PropTypes.bool,
-      'is_favorite': PropTypes.bool,
-      'images': PropTypes.arrayOf(PropTypes.string),
-      'bedrooms': PropTypes.number,
-      'max_adults': PropTypes.number,
-      'goods': PropTypes.arrayOf(PropTypes.string),
-      'host': PropTypes.exact({
-        'avatar_url': PropTypes.string,
+      PropTypes.exact({
         'id': PropTypes.number,
-        'is_pro': PropTypes.bool,
-        'name': PropTypes.string,
-      }),
-      'description': PropTypes.string,
-      'location': PropTypes.exact({
-        'latitude': PropTypes.number,
-        'longitude': PropTypes.number,
-        'zoom': PropTypes.number,
-      }),
-      'city': PropTypes.exact({
+        'preview_image': PropTypes.string,
+        'price': PropTypes.number,
+        'title': PropTypes.string,
+        'type': PropTypes.string,
+        'rating': PropTypes.number,
+        'is_premium': PropTypes.bool,
+        'is_favorite': PropTypes.bool,
+        'images': PropTypes.arrayOf(PropTypes.string),
+        'bedrooms': PropTypes.number,
+        'max_adults': PropTypes.number,
+        'goods': PropTypes.arrayOf(PropTypes.string),
+        'host': PropTypes.exact({
+          'avatar_url': PropTypes.string,
+          'id': PropTypes.number,
+          'is_pro': PropTypes.bool,
+          'name': PropTypes.string,
+        }),
+        'description': PropTypes.string,
         'location': PropTypes.exact({
           'latitude': PropTypes.number,
           'longitude': PropTypes.number,
           'zoom': PropTypes.number,
         }),
-        'name': PropTypes.string,
-      }),
-    }),
-  ).isRequired,
+        'city': PropTypes.exact({
+          'location': PropTypes.exact({
+            'latitude': PropTypes.number,
+            'longitude': PropTypes.number,
+            'zoom': PropTypes.number,
+          }),
+          'name': PropTypes.string,
+        }),
+      })).isRequired,
   currentCity: PropTypes.exact({
     'location': PropTypes.exact({
       'latitude': PropTypes.number,
@@ -158,7 +158,7 @@ Map.propTypes = {
     }),
     'name': PropTypes.string,
   }).isRequired,
-  viewMode: PropTypes.oneOf([`main`, `near`]),
+  viewMode: PropTypes.oneOf([MapMode.MAIN, MapMode.NEAR]).isRequired,
 };
 
 export default Map;

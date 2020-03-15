@@ -1,25 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NameSpace from '../../reducer/name-space';
 import {connect} from 'react-redux';
-import {AuthorizationStatus} from '../../reducer/user/reducer';
+import {AuthorizationStatus} from '../../reducer/user/user';
 import {Link} from 'react-router-dom';
 import AppRoute from '../../AppRoute';
+import {getStatus, getUser} from '../../reducer/user/selectors';
 
-const Header = ({authorizationStatus, user}) => {
-  const userAuth = () => (
-    <a className="header__nav-link header__nav-link--profile"
-      href="#">
+export const Header = ({authorizationStatus, user}) => {
+  const UserAuth = () => (
+    <Link
+      className="header__nav-link header__nav-link--profile"
+      to={AppRoute.FAVORITES}
+    >
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       <span
         className="header__user-name user__name">{user.email}</span>
-    </a>
+    </Link>
   );
 
-  const singInLink = () => (
-    <Link className="header__nav-link header__nav-link--profile"
-      to={AppRoute.LOGIN}>
+  const SingInLink = () => (
+    <Link
+      className="header__nav-link header__nav-link--profile"
+      to={AppRoute.LOGIN}
+    >
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       <span className="header__login">Sign in</span>
@@ -33,14 +37,16 @@ const Header = ({authorizationStatus, user}) => {
           <div className="header__left">
             <Link className="header__logo-link header__logo-link--active"
               to={AppRoute.MAIN}>
-              <img className="header__logo" src="img/logo.svg"
+              <img className="header__logo" src="/img/logo.svg"
                 alt="6 cities logo" width="81" height="41"/>
             </Link>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                {authorizationStatus === AuthorizationStatus.AUTH ? userAuth() : singInLink()}
+                {authorizationStatus === AuthorizationStatus.AUTH
+                  ? <UserAuth/>
+                  : <SingInLink/>}
               </li>
             </ul>
           </nav>
@@ -51,8 +57,8 @@ const Header = ({authorizationStatus, user}) => {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state[NameSpace.USER].authorizationStatus,
-  user: state[NameSpace.USER].user,
+  authorizationStatus: getStatus(state),
+  user: getUser(state),
 });
 
 Header.propTypes = {

@@ -6,14 +6,17 @@ import CitiesList from '../cities-list/cities-list.jsx';
 import PlacesSorting from '../places-sorting/places-sorting.jsx';
 import Header from '../header/header.jsx';
 import {connect} from 'react-redux';
-import {cityOffers, selectCity} from '../../reducer/offers/selectors';
-import {ActionCreator} from '../../reducer/offers/reducer';
+import {ActionCreator as ActionCreatorOffers, Operation as OperationOffers} from '../../reducer/offers/offers';
 import MainEmpty from '../main-empty/main-empty.jsx';
-import NameSpace from '../../reducer/name-space';
+import {FavoriteStatus, MapMode, PlaceListMode} from '../../constatnts';
+import {
+  getActiveOffer,
+  getCityOffers,
+  getSelectCity,
+} from '../../reducer/offers/selectors';
 
 export const Main = (props) => {
-  const MAP_VIEW_MODE = `main`;
-  const {offers, currentCity, activeOffer, changeActiveOffer} = props;
+  const {offers, currentCity, activeOffer, changeActiveOffer, handleSetFavorites} = props;
   const placesCount = offers.length;
 
   const renderMain = () => (
@@ -24,9 +27,10 @@ export const Main = (props) => {
           <b className="places__found">{placesCount} places to stay in {currentCity.name}</b>
           <PlacesSorting/>
           <PlacesList
-            viewMode={MAP_VIEW_MODE}
+            viewMode={PlaceListMode.MAIN}
             offers={offers}
             onActiveOffer={changeActiveOffer}
+            onSetBookmark={handleSetFavorites}
           />
         </section>
         <div className="cities__right-section">
@@ -34,17 +38,19 @@ export const Main = (props) => {
             offers={offers}
             currentCity={currentCity}
             activeOffer={activeOffer}
-            viewMode={MAP_VIEW_MODE}
+            viewMode={MapMode.MAIN}
           />
         </div>
       </div>
     </div>
   );
 
+  const mainClass = `page__main page__main--index ${placesCount > 0 ? `` : `page__main--index-empty`}`;
+
   return (
     <div className="page page--gray page--main">
       <Header/>
-      <main className="page__main page__main--index">
+      <main className={mainClass}>
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList/>
         {placesCount > 0 ? renderMain() : <MainEmpty/>}
@@ -54,13 +60,17 @@ export const Main = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentCity: selectCity(state),
-  activeOffer: state[NameSpace.OFFERS].activeOffer,
-  offers: cityOffers(state),
+  currentCity: getSelectCity(state),
+  activeOffer: getActiveOffer(state),
+  offers: getCityOffers(state),
 });
 
 const mapDispatchToProps = {
-  changeActiveOffer: (activeOffer) => ActionCreator.changeActiveOffer(activeOffer)
+  changeActiveOffer: (activeOffer) => ActionCreatorOffers.changeActiveOffer(activeOffer),
+  handleSetFavorites: (id, isBookmark) => {
+    const status = isBookmark ? FavoriteStatus.ADD : FavoriteStatus.DELETE;
+    return OperationOffers.setFavorites(id, status);
+  },
 };
 
 Main.propTypes = {
@@ -97,19 +107,19 @@ Main.propTypes = {
         "location": PropTypes.exact({
           "latitude": PropTypes.number,
           "longitude": PropTypes.number,
-          "zoom": PropTypes.number
+          'zoom': PropTypes.number,
         }),
-        "city": PropTypes.exact({
-          "location": PropTypes.exact({
-            "latitude": PropTypes.number,
-            "longitude": PropTypes.number,
-            "zoom": PropTypes.number
+        'city': PropTypes.exact({
+          'location': PropTypes.exact({
+            'latitude': PropTypes.number,
+            'longitude': PropTypes.number,
+            'zoom': PropTypes.number,
           }),
-          "name": PropTypes.string,
+          'name': PropTypes.string,
         }),
-      })
-  ).isRequired,
+      })),
   changeActiveOffer: PropTypes.func.isRequired,
+  handleSetFavorites: PropTypes.func.isRequired,
 };
 
 

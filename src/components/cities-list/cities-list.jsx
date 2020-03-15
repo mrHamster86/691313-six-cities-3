@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {citiesList} from '../../reducer/offers/selectors';
-import {ActionCreator} from '../../reducer/offers/reducer';
-import NameSpace from '../../reducer/name-space';
+import {getCitiesList, getCity} from '../../reducer/offers/selectors';
+import {ActionCreator} from '../../reducer/offers/offers';
 
 export const CitiesList = ({selectCity, cities, changeCity}) => {
   return (
@@ -28,8 +27,8 @@ export const CitiesList = ({selectCity, cities, changeCity}) => {
 };
 
 const mapStateToProps = (state) => ({
-  selectCity: state[NameSpace.OFFERS].city,
-  cities: citiesList(state)
+  selectCity: getCity(state),
+  cities: getCitiesList(state),
 });
 
 const mapDispatchToProps = {
@@ -40,12 +39,12 @@ CitiesList.propTypes = {
   selectCity: PropTypes.string.isRequired,
   cities: PropTypes.arrayOf(
       PropTypes.exact({
-        "location": PropTypes.exact({
-          "latitude": PropTypes.number,
-          "longitude": PropTypes.number,
-          "zoom": PropTypes.number
+        'location': PropTypes.exact({
+          'latitude': PropTypes.number,
+          'longitude': PropTypes.number,
+          'zoom': PropTypes.number,
         }),
-        "name": PropTypes.string
+        'name': PropTypes.string,
       })).isRequired,
   changeCity: PropTypes.func.isRequired,
 };

@@ -1,5 +1,7 @@
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+import {PlaceListMode} from '../../constatnts';
 
 const PlaceCard = (props) => {
   const MAX_RATING = 5;
@@ -14,10 +16,13 @@ const PlaceCard = (props) => {
     isBookmark,
     onActiveOffer,
     viewMode,
+    onSetBookmark,
   } = props;
+  const offerLink = `/offer/${id}`;
 
-  const handleMouseenter = (activeOffer) => onActiveOffer(activeOffer);
-  const handleMouseleave = () => onActiveOffer();
+  const handleMouseenter = () => onActiveOffer && onActiveOffer(id);
+  const handleMouseleave = () => onActiveOffer && onActiveOffer();
+  const handleBookmarkClick = () => onSetBookmark(id, isBookmark);
 
   const cardMark = () => (
     <div className="place-card__mark">
@@ -25,55 +30,80 @@ const PlaceCard = (props) => {
     </div>
   );
 
-  const articleClassName = () => {
+  const articleClass = () => {
     switch (viewMode) {
-      case `main`:
+      case PlaceListMode.MAIN:
         return `cities__place-card`;
-      case `near`:
+      case PlaceListMode.NEAR:
         return `near-places__card`;
+      case PlaceListMode.FAVORITES:
+        return `favorites__card`;
       default:
         return ``;
     }
   };
 
-  const wrapperClassName = () => {
+  const wrapperClass = () => {
     switch (viewMode) {
-      case `main`:
+      case PlaceListMode.MAIN:
         return `cities__image-wrapper`;
-      case `near`:
+      case PlaceListMode.NEAR:
         return `near-places__image-wrapper`;
+      case PlaceListMode.FAVORITES:
+        return `favorites__image-wrapper`;
       default:
         return ``;
+    }
+  };
+
+  const infoClass = () => {
+    switch (viewMode) {
+      case PlaceListMode.FAVORITES:
+        return `favorites__card-info`;
+      default:
+        return ``;
+    }
+  };
+
+  const imageSize = () => {
+    switch (viewMode) {
+      case PlaceListMode.FAVORITES:
+        return {width: 150, height: 110};
+      default:
+        return {width: 260, height: 200};
     }
   };
 
   return (
     <article
-      className={`${articleClassName()} place-card`}
-      onMouseEnter={handleMouseenter.bind({}, id)}
+      className={`${articleClass()} place-card`}
+      onMouseEnter={handleMouseenter}
       onMouseLeave={handleMouseleave}
     >
       {isPremium && viewMode === `main` ? cardMark() : null}
       <div
-        className={`${wrapperClassName()} place-card__image-wrapper`}>
-        <a href="#">
+        className={`${wrapperClass()} place-card__image-wrapper`}>
+        <a href={picture}>
           <img className="place-card__image"
             src={picture}
-            width="260"
-            height="200"
+            width={imageSize().width}
+            height={imageSize().height}
             alt={title}
           />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className={`${infoClass()} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span
               className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isBookmark && `place-card__bookmark-button--active`}`}
-            type="button">
+          <button
+            className={`place-card__bookmark-button button ${isBookmark && `place-card__bookmark-button--active`}`}
+            type="button"
+            onClick={handleBookmarkClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
             </svg>
@@ -88,7 +118,7 @@ const PlaceCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={offerLink}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -105,8 +135,9 @@ PlaceCard.propTypes = {
   rating: PropTypes.number.isRequired,
   isPremium: PropTypes.bool.isRequired,
   isBookmark: PropTypes.bool.isRequired,
-  onActiveOffer: PropTypes.func.isRequired,
   viewMode: PropTypes.string.isRequired,
+  onActiveOffer: PropTypes.func,
+  onSetBookmark: PropTypes.func.isRequired,
 };
 
 export default memo(PlaceCard);

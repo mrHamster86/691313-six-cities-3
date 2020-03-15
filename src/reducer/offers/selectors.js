@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import {SORT_TYPE} from '../../constatnts';
 import NameSpace from '../name-space';
 
-const offersSort = (offers, sort) => {
+const offersSort = (offers = [], sort) => {
   switch (sort) {
     case SORT_TYPE.PLH:
       return [...offers].sort((a, b) => a.price - b.price);
@@ -14,12 +14,14 @@ const offersSort = (offers, sort) => {
   return [...offers];
 };
 
-const offersSelector = (state) => state[NameSpace.OFFERS].offers;
-const citySelector = (state) => state[NameSpace.OFFERS].city;
-const sortSelector = (state) => state[NameSpace.OFFERS].sort;
+export const getOffers = (state) => state[NameSpace.OFFERS].offers;
+export const getCity = (state) => state[NameSpace.OFFERS].city;
+export const getSort = (state) => state[NameSpace.OFFERS].sort;
+export const getActiveOffer = (state) => state[NameSpace.OFFERS].activeOffer;
+const offerId = (state, props) => props.offerId;
 
 const groupOffersSelector = createSelector(
-    offersSelector,
+    getOffers,
     (offers) => {
       const groupCitiesByName = {};
       const groupOffersByCity = {};
@@ -34,22 +36,27 @@ const groupOffersSelector = createSelector(
       return {groupCitiesByName, groupOffersByCity};
     });
 
-export const citiesList = createSelector(
+export const getCitiesList = createSelector(
     groupOffersSelector,
     ({groupCitiesByName}) => Object.keys(groupCitiesByName).map((name) => groupCitiesByName[name]));
 
-export const selectCity = createSelector(
-    citySelector,
+export const getSelectCity = createSelector(
+    getCity,
     groupOffersSelector,
     (city, {groupCitiesByName}) => groupCitiesByName[city]);
 
-export const cityOffers = createSelector(
-    offersSelector,
+export const getCityOffers = createSelector(
+    getOffers,
     groupOffersSelector,
-    citySelector,
-    sortSelector,
+    getCity,
+    getSort,
     (offers, {groupOffersByCity}, city, sort) => {
       return offers.length ? offersSort(groupOffersByCity[city], sort) : [];
     });
+
+export const getOfferById = createSelector(
+    getOffers,
+    offerId,
+    (offers, id) => offers.find((offer) => offer.id === id));
 
 

@@ -32,9 +32,6 @@ const Operation = {
     .then((response) => {
       dispatch(ActionCreator.setUser(response.data));
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
-    })
-    .catch((err) => {
-      throw err;
     });
   },
 

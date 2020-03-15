@@ -1,65 +1,70 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Map from './map.jsx';
+import {MapMode} from '../../constatnts';
 
-const offers = [
-  {
-    id: 1,
-    picture: `img/apartment-01.jpg`,
-    price: 120,
-    title: `Beautiful & luxurious apartment at great location`,
-    type: `apartment`,
-    rating: 4,
-    isPremium: false,
-    isBookmark: false,
-    images: [
-      `img/room.jpg`,
-      `img/apartment-01.jpg`,
-      `img/apartment-02.jpg`,
-      `img/apartment-03.jpg`,
-      `img/studio-01.jpg`,
-      `img/apartment-01.jpg`,
-    ],
-    bedrooms: 3,
-    maxAdults: 4,
-    goods: [
-      `Wi-Fi`,
-      `Washing machine`,
-      `Towels`,
-      `Heating`,
-      `Coffee machine`,
-      `Baby seat`,
-      `Kitchen`,
-      `Dishwasher`,
-      `Cabel TV`,
-      `Fridge`,
-    ],
-    host: {
-      avatar: `img/avatar-angelina.jpg`,
-      id: 1,
-      isPro: true,
-      name: `Angelina`,
+const activeOffer = 1;
+const viewMode = MapMode.MAIN;
+const offers = [{
+  "city": {
+    name: `Paris`,
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13,
     },
-    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-    location: [52.3909553943508, 4.85309666406198],
-    reviews: [
-      {
-        id: 1,
-        user: `Max`,
-        avatar: `img/avatar-max.jpg`,
-        rating: 4,
-        date: `December 24, 2018`,
-        text: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      }
-    ],
-    city: `Amsterdam`,
+  },
+  "preview_image": `img/apartment-1.jpg`,
+  "images": [
+    `img/apartment-1.jpg`,
+    `img/apartment-1.jpg`,
+  ],
+  "title": `Canal View Prinsengracht`,
+  "is_favorite": false,
+  "is_premium": false,
+  "rating": 3.1,
+  "type": `hotel`,
+  "bedrooms": 5,
+  "max_adults": 7,
+  "price": 350,
+  "goods": [
+    `Baby seat`,
+    `Air conditioning`,
+    `Towels`,
+    `Washer`,
+    `Laptop friendly workspace`,
+    `Breakfast`,
+  ],
+  "host": {
+    "id": 25,
+    "name": `Angelina`,
+    "is_pro": true,
+    "avatar_url": `img/avatar-angelina.jpg`,
+  },
+  "description": `This is a place for dreamers to reset, reflect, and create. Designed with a 'slow' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.`,
+  "location": {
+    latitude: 48.861610000000006,
+    longitude: 2.340499,
+    zoom: 16,
+  },
+  "id": 1,
+}];
+
+const currentCity = {
+  "location": {
+    latitude: 48.861610000000006,
+    longitude: 2.340499,
+    zoom: 16,
   }
-];
+};
 
 it(`renders correctly Map`, () => {
   const tree = renderer.create(
       <Map
+        activeOffer={activeOffer}
         offers={offers}
+        currentCity={currentCity}
+        viewMode={viewMode}
       />, {
         createNodeMock: () => {
           return document.createElement(`div`);
