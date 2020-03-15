@@ -1,14 +1,19 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Header from '../header/header.jsx';
-import {Operation} from '../../reducer/user/reducer';
+import {Operation as OperationUser} from '../../reducer/user/user';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import AppRoute from '../../AppRoute';
+import {ActionCreator as ActionCreatorOffers} from '../../reducer/offers/offers';
 
 export class SingIn extends PureComponent {
   constructor(props) {
     super(props);
+    this.CITY = `Amsterdam`;
     this._formRef = React.createRef();
     this._handleSubmitForm = this._handleSubmitForm.bind(this);
+    this._handleCityClick = this._handleCityClick.bind(this);
   }
 
   _handleSubmitForm(event) {
@@ -20,6 +25,11 @@ export class SingIn extends PureComponent {
       email: formData.get(`email`),
       password: formData.get(`password`),
     });
+  }
+
+  _handleCityClick() {
+    const {changeCity} = this.props;
+    changeCity(this.CITY);
   }
 
   render() {
@@ -55,9 +65,13 @@ export class SingIn extends PureComponent {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
-                  <span>Amsterdam</span>
-                </a>
+                <Link
+                  className="locations__item-link"
+                  to={AppRoute.MAIN}
+                  onClick={this._handleCityClick}
+                >
+                  <span>{this.CITY}</span>
+                </Link>
               </div>
             </section>
           </div>
@@ -67,11 +81,13 @@ export class SingIn extends PureComponent {
   }
 }
 const mapDispatchToProps = {
-  login: (authData) => Operation.login(authData)
+  login: (authData) => OperationUser.login(authData),
+  changeCity: (city) => ActionCreatorOffers.changeCity(city),
 };
 
 SingIn.propTypes = {
   login: PropTypes.func.isRequired,
+  changeCity: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(SingIn);

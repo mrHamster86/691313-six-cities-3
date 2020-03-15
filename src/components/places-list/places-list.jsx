@@ -1,21 +1,26 @@
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card.jsx';
+import {PlaceListMode} from '../../constatnts';
 
-const PlacesList = ({offers, viewMode, onActiveOffer}) => {
+const PlacesList = (props) => {
+  const {offers, viewMode, onActiveOffer, onSetBookmark} = props;
+
   const className = () => {
     switch (viewMode) {
-      case `main`:
-        return `cities__places-list tabs__content`;
-      case `near`:
-        return `near-places__list`;
+      case PlaceListMode.MAIN:
+        return `cities__places-list tabs__content places__list`;
+      case PlaceListMode.NEAR:
+        return `near-places__list places__list`;
+      case PlaceListMode.FAVORITES:
+        return `favorites__places`;
       default:
         return ``;
     }
   };
 
   return (
-    <div className={`${className()} places__list`}>
+    <div className={className()}>
       {offers.map((place) => (
         <PlaceCard
           key={place.id}
@@ -29,6 +34,7 @@ const PlacesList = ({offers, viewMode, onActiveOffer}) => {
           isPremium={place[`is_premium`]}
           isBookmark={place[`is_favorite`]}
           onActiveOffer={onActiveOffer}
+          onSetBookmark={onSetBookmark}
         />
       ))}
     </div>
@@ -36,7 +42,8 @@ const PlacesList = ({offers, viewMode, onActiveOffer}) => {
 };
 
 PlacesList.propTypes = {
-  onActiveOffer: PropTypes.func.isRequired,
+  onActiveOffer: PropTypes.func,
+  onSetBookmark: PropTypes.func.isRequired,
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         'id': PropTypes.number,
@@ -73,7 +80,7 @@ PlacesList.propTypes = {
         }),
       })
   ).isRequired,
-  viewMode: PropTypes.oneOf([`main`, `near`]).isRequired,
+  viewMode: PropTypes.oneOf([PlaceListMode.MAIN, PlaceListMode.NEAR, PlaceListMode.FAVORITES]).isRequired,
 };
 
 export default memo(PlacesList);

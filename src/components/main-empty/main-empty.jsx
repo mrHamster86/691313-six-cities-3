@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import NameSpace from '../../reducer/name-space';
+import {getCity} from '../../reducer/offers/selectors';
 
-const MainEmpty = ({cityName}) => {
+export const MainEmpty = ({cityName}) => {
   return (
     <div className="cities">
       <div
@@ -26,7 +26,7 @@ MainEmpty.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  cityName: state[NameSpace.OFFERS].city
+  cityName: getCity(state),
 });
 
 export default connect(mapStateToProps, null)(MainEmpty);
