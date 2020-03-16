@@ -17,7 +17,7 @@ it(`CitiesList components renders correctly`, () => {
   const tree = renderer.create(
       <CitiesList
         cities={cities}
-        changeCity={noop}
+        onChangeCity={noop}
         selectCity={currentCity}
       />).toJSON();
   expect(tree).toMatchSnapshot();

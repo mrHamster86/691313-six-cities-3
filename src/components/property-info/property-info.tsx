@@ -1,4 +1,5 @@
 import * as React from 'react';
+import MAX_RATING from '../../constatnts';
 
 interface Props {
   rating: number;
@@ -14,7 +15,6 @@ interface Props {
 }
 
 export const PropertyInfo: React.FC<Props> = (props: Props) => {
-  const MAX_RATING = 5;
   const {
     rating,
     type,

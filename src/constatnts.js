@@ -29,3 +29,5 @@ export const RATING_STARS = {
   2: `badly`,
   1: `terribly`,
 };
+
+export const MAX_RATING = 5;

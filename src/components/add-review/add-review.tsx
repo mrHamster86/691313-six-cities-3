@@ -25,7 +25,7 @@ interface Props {
   rating: number;
   review: string;
   isValidForm: boolean;
-  setRating: () => void;
+  onChangeRating: () => void;
   changeReview: (string) => void;
   clearReview: () => void;
   uploadReview: (uploadReview) => Promise<void>;
@@ -69,7 +69,7 @@ export class AddReview extends React.PureComponent<Props, State> {
   }
 
   _renderStars() {
-    const {rating, setRating, booleanState} = this.props;
+    const {rating, onChangeRating, booleanState} = this.props;
 
     const starsList = Object.keys(RATING_STARS).
       map((key) => Number(key)).
@@ -83,7 +83,7 @@ export class AddReview extends React.PureComponent<Props, State> {
           value={star}
           id={`${star}-stars`}
           type="radio"
-          onChange={setRating.bind({}, star)}
+          onChange={onChangeRating.bind({}, star)}
           checked={star === rating}
           disabled={booleanState}
         />
@@ -153,7 +153,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  setRating: (rating) => ActionCreatorReview.setRating(rating),
+  onChangeRating: (rating) => ActionCreatorReview.setRating(rating),
   changeReview: (review) => ActionCreatorReview.changeReview(review),
   clearReview: () => ActionCreatorReview.clear(),
   uploadReview: ({review, rating, offerId}) => OperationReview.uploadReview({review, rating, offerId}),

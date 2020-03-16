@@ -7,10 +7,10 @@ import {City} from "../../types";
 interface Props {
   selectCity: string;
   cities: City[];
-  changeCity: (string) => void;
+  onChangeCity: (string) => void;
 }
 
-export const CitiesList: React.FC<Props> = ({selectCity, cities, changeCity}: Props) => {
+export const CitiesList: React.FC<Props> = ({selectCity, cities, onChangeCity}: Props) => {
   return (
     <div className="tabs">
       <section className="locations container">
@@ -19,7 +19,7 @@ export const CitiesList: React.FC<Props> = ({selectCity, cities, changeCity}: Pr
             <li key={city.name} className="locations__item">
               <a
                 className={`locations__item-link tabs__item ${selectCity === city.name && `tabs__item--active`}`}
-                onClick={changeCity.bind({}, city.name)}
+                onClick={onChangeCity.bind({}, city.name)}
                 href="#"
               >
                 <span>{city.name}</span>
@@ -38,7 +38,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  changeCity: (city) => ActionCreator.changeCity(city)
+  onChangeCity: (city) => ActionCreator.changeCity(city)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);

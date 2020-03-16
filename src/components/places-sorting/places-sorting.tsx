@@ -7,12 +7,12 @@ import {getSort} from '../../reducer/offers/selectors';
 
 interface Props {
   currentSort: string;
-  changeSort: () => void;
+  onChangeSort: () => void;
   booleanState: boolean;
   onToggle: () => void;
 }
 
-export const PlacesSorting: React.FC<Props> = ({currentSort, changeSort, booleanState, onToggle}: Props) => {
+export const PlacesSorting: React.FC<Props> = ({currentSort, onChangeSort, booleanState, onToggle}: Props) => {
   return (
     <form
       className="places__sorting"
@@ -32,7 +32,7 @@ export const PlacesSorting: React.FC<Props> = ({currentSort, changeSort, boolean
           <li
             key={sort}
             className={`places__option ${sort === currentSort && `places__option--active`}`}
-            onClick={changeSort.bind({}, sort)}
+            onClick={onChangeSort.bind({}, sort)}
           >{sort}</li>
         ))}
       </ul>
@@ -45,7 +45,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  changeSort: (sort) => ActionCreator.changeSort(sort)
+  onChangeSort: (sort) => ActionCreator.changeSort(sort)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withBooleanState(PlacesSorting));

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import MAX_RATING from '../../constatnts';
 
 interface Props {
   user: string;
@@ -10,7 +11,6 @@ interface Props {
 }
 
 const ReviewsItem: React.FC<Props> = (props: Props) => {
-  const MAX_RATING = 5;
   const {
     user,
     avatar,

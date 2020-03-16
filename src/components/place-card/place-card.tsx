@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {PlaceListMode} from '../../constatnts';
+import MAX_RATING from '../../constatnts';
 
 interface Props {
   id: number;
@@ -17,7 +18,6 @@ interface Props {
 }
 
 const PlaceCard: React.FC<Props> = (props: Props) => {
-  const MAX_RATING = 5;
   const {
     id,
     picture,

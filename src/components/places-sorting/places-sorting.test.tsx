@@ -10,7 +10,7 @@ it(`PlacesSorting components renders correctly`, () => {
   const tree = renderer.
     create(<PlacesSorting
       currentSort={currentSort}
-      changeSort={noop}
+      onChangeSort={noop}
       booleanState={booleanState}
       onToggle={noop}
     />).
