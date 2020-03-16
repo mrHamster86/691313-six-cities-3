@@ -8,3 +8,7 @@ export const updateObjectInArray = (array, newObject, key) => {
   newArray[index] = extend(newArray[index], newObject);
   return newArray;
 };
+
+export const noop = () => {
+  // do nothing
+};
