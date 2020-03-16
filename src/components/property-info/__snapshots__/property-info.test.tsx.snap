@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PropertyInfo components renders 1`] = `
+Array [
+  <div
+    className="property__rating rating"
+  >
+    <div
+      className="property__stars rating__stars"
+    >
+      <span
+        style={
+          Object {
+            "width": "NaN%",
+          }
+        }
+      />
+      <span
+        className="visually-hidden"
+      >
+        Rating
+      </span>
+    </div>
+    <span
+      className="property__rating-value rating__value"
+    >
+      1
+    </span>
+  </div>,
+  <ul
+    className="property__features"
+  >
+    <li
+      className="property__feature property__feature--entire"
+    >
+      hotel
+    </li>
+    <li
+      className="property__feature property__feature--bedrooms"
+    >
+      1 Bedrooms
+    </li>
+    <li
+      className="property__feature property__feature--adults"
+    >
+      Max 1 adults
+    </li>
+  </ul>,
+  <div
+    className="property__price"
+  >
+    <b
+      className="property__price-value"
+    >
+      €
+      100
+    </b>
+    <span
+      className="property__price-text"
+    >
+       night
+    </span>
+  </div>,
+  <div
+    className="property__inside"
+  >
+    <h2
+      className="property__inside-title"
+    >
+      What's inside
+    </h2>
+    <ul
+      className="property__inside-list"
+    >
+      <li
+        className="property__inside-item"
+      >
+        Baby seat
+      </li>
+      <li
+        className="property__inside-item"
+      >
+        Air conditioning
+      </li>
+      <li
+        className="property__inside-item"
+      >
+        Towels
+      </li>
+      <li
+        className="property__inside-item"
+      >
+        Washer
+      </li>
+      <li
+        className="property__inside-item"
+      >
+        Laptop friendly workspace
+      </li>
+      <li
+        className="property__inside-item"
+      >
+        Breakfast
+      </li>
+    </ul>
+  </div>,
+  <div
+    className="property__host"
+  >
+    <h2
+      className="property__host-title"
+    >
+      Meet the host
+    </h2>
+    <div
+      className="property__host-user user"
+    >
+      <div
+        className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper"
+      >
+        <img
+          alt="Angelina"
+          className="property__avatar user__avatar"
+          height="74"
+          src="/img/avatar-angelina.jpg"
+          width="74"
+        />
+      </div>
+      <span
+        className="property__user-name"
+      >
+        Angelina
+      </span>
+    </div>
+    <div
+      className="property__description"
+    >
+      <p
+        className="property__text"
+      >
+        This is a place for dreamers to reset, reflect, and create.
+      </p>
+    </div>
+  </div>,
+]
+`;
